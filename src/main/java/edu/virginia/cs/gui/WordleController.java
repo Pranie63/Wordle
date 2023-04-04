@@ -49,10 +49,14 @@ public class WordleController {
 //            textField = textFields.get(i);
 //            label = labels.get(i);
 
-//            TextField finalTextField = textField;
-//            textField.textProperty().addListener((observable, oldValue, newValue) -> {
-//                validInput(observable.getValue()) ? finalTextField.textProperty().setValue(newValue) : finalTextField.textProperty().setValue(oldValue)
-//                    });
+            TextField finalTextField = textField;
+            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (validInput(observable.getValue())) {
+                    finalTextField.textProperty().setValue(newValue.toUpperCase());
+                } else {
+                    finalTextField.textProperty().setValue(oldValue);
+                }
+            });
             textField.setStyle("-fx-display-caret: false");
             root.add(textField, i%5, i/5);
         }
