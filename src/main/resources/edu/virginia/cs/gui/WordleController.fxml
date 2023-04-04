@@ -24,13 +24,14 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.cs.gui.WordleController">
 
     <VBox layoutX="50.0" layoutY="50.0" spacing="10.0" />
-    <TextField fx:id="textField1" layoutX="38.0" layoutY="33.0"  prefHeight="218.0" prefWidth="72.0" onKeyPressed = "#onKeyTyped" onAction="#LetterChecking" />
-    <TextField fx:id="textField2" layoutX="133.0" layoutY="39.0" prefHeight="218.0" prefWidth="72.0" onKeyPressed = "#onKeyTyped" onAction="#LetterChecking"  />
-    <TextField fx:id="textField3" layoutX="246.0" layoutY="33.0" prefHeight="218.0" prefWidth="60.0" onKeyPressed = "#onKeyTyped" onAction="#LetterChecking" />
-    <TextField fx:id="textField4" layoutX="346.0" layoutY="33.0" prefHeight="218.0" prefWidth="60.0" onKeyPressed = "#onKeyTyped" onAction="#LetterChecking" />
+    <TextField fx:id="textField1" layoutX="118.0" layoutY="50.0" prefHeight="218.0" prefWidth="72.0"  onAction="#onTextEntryEnter"  />
+    <TextField fx:id="textField2" layoutX="346.0" layoutY="49.0" prefHeight="218.0" prefWidth="72.0" />
+    <TextField fx:id="textField3" layoutX="461.0" layoutY="49.0" prefHeight="218.0" prefWidth="60.0" />
+    <TextField fx:id="textField4" layoutX="580.0" layoutY="49.0" prefHeight="218.0" prefWidth="60.0" />
 
 
-    <TextField fx:id="textField5" layoutX="456.0" layoutY="50.0" prefHeight="218.0" prefWidth="72.0" onKeyPressed = "#onKeyTyped" onAction="#LetterChecking" />
+    <TextField fx:id="textField5" layoutX="20.0" layoutY="50.0" prefHeight="218.0" prefWidth="72.0" />
+    <TextField fx:id="textField6" layoutX="233.0" layoutY="49.0" prefHeight="218.0" prefWidth="72.0" />
 
 
 
