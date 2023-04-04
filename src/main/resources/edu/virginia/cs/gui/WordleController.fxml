@@ -21,5 +21,6 @@
   </rowConstraints>
    <children>
       <Label fx:id="label00" text="Label" />
+      <Label text="Label" GridPane.columnIndex="1" />
    </children>
 </GridPane>

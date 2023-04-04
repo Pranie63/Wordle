@@ -13,6 +13,8 @@ import javafx.scene.*;
 import javafx.scene.layout.RowConstraints;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WordleController {
     Wordle wordle = new WordleImplementation();
@@ -26,7 +28,22 @@ public class WordleController {
     @FXML
     private Label label00;
 
+    @FXML
+    private List<TextField> textFields = new ArrayList<>(); //stores all textfields
 
+    @FXML
+    private List<Label> labels = new ArrayList<>(); //stores all labels
+
+    public void initialize(){ //sets up event handlers for every textfield
+        for (int i = 0; i < textFields.size(); i++) {
+            TextField textField = textFields.get(i);
+            Label label = labels.get(i);
+
+            textField.textProperty().addListener((observable, oldValue, newValue) ->
+                    label.setText("entry:" + newValue));
+        }
+        }
+    }
 
 //    @FXML
 //    private void checkWordAvailability()
