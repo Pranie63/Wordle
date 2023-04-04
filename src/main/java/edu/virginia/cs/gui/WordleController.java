@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.*;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,10 +49,11 @@ public class WordleController {
 //            textField = textFields.get(i);
 //            label = labels.get(i);
 
-            TextField finalTextField = textField;
+//            TextField finalTextField = textField;
 //            textField.textProperty().addListener((observable, oldValue, newValue) -> {
 //                validInput(observable.getValue()) ? finalTextField.textProperty().setValue(newValue) : finalTextField.textProperty().setValue(oldValue)
 //                    });
+            textField.setStyle("-fx-display-caret: false");
             root.add(textField, i%5, i/5);
         }
     }
