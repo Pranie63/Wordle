@@ -1,6 +1,9 @@
 package edu.virginia.cs.gui;
 
+import edu.virginia.cs.wordle.Wordle;
+import edu.virginia.cs.wordle.WordleImplementation;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -9,25 +12,22 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.*;
 import javafx.scene.layout.RowConstraints;
 
+import java.io.IOException;
+
 public class WordleController {
+    Wordle wordle = new WordleImplementation();
+
     @FXML
     private Label welcomeText;
 
-//    @FXML
-//    private TextField textField0;
-//    @FXML
-//    private Label errorLabel;
+    @FXML
+    private GridPane root = new GridPane();
 
     @FXML
-    private GridPane wordlePane;
-    int rowCount = 6;
-    int columnCount = 5;
+    private Label label00;
 
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!")
-        ;
-    }
+
+
 //    @FXML
 //    private void checkWordAvailability()
 //    {
@@ -49,6 +49,7 @@ public class WordleController {
 //            }
 //        }
 //    }
+
 }
 
 
