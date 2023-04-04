@@ -2,6 +2,7 @@ package edu.virginia.cs.gui;
 
 import edu.virginia.cs.wordle.Wordle;
 import edu.virginia.cs.wordle.WordleImplementation;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -29,21 +30,36 @@ public class WordleController {
     private Label label00;
 
     @FXML
-    private List<TextField> textFields = new ArrayList<>(); //stores all textfields
+    private List<TextField> textFields = new ArrayList<>(30); //stores all textfields
 
     @FXML
     private List<Label> labels = new ArrayList<>(); //stores all labels
 
-    public void initialize(){ //sets up event handlers for every textfield
-        for (int i = 0; i < textFields.size(); i++) {
-            TextField textField = textFields.get(i);
-            Label label = labels.get(i);
+    public void initialize() { //sets up event handlers for every textfield
+//        root.setGridLinesVisible(false);
+//        root.getChildren().addAll(new TextField());
+        TextField textField;
+        Label label;
+        for (int i = 0; i < 30; i++) {
+            textField = new TextField();
+            label = new Label();
+            textFields.add(textField);
+            labels.add(label);
+//            textField = textFields.get(i);
+//            label = labels.get(i);
 
-            textField.textProperty().addListener((observable, oldValue, newValue) ->
-                    label.setText("entry:" + newValue));
-        }
+            TextField finalTextField = textField;
+//            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+//                validInput(observable.getValue()) ? finalTextField.textProperty().setValue(newValue) : finalTextField.textProperty().setValue(oldValue)
+//                    });
+            root.add(textField, i%5, i/5);
         }
     }
+
+    public boolean validInput(String str) {
+        return str.length() <= 1 && str.toUpperCase().charAt(0) >= 'A' && str.toUpperCase().charAt(0) <= 'Z';
+    }
+}
 
 //    @FXML
 //    private void checkWordAvailability()
@@ -67,7 +83,6 @@ public class WordleController {
 //        }
 //    }
 
-}
 
 
 
