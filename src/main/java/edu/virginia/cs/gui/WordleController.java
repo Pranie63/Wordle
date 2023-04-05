@@ -59,13 +59,61 @@ public class WordleController {
             });
             textField.setStyle("-fx-display-caret: false");
             root.add(textField, i%5, i/5);
+
         }
+
     }
 
     public boolean validInput(String str) {
         return str.length() <= 1 && str.toUpperCase().charAt(0) >= 'A' && str.toUpperCase().charAt(0) <= 'Z';
     }
+    public void handleKeyPressed()
+    {
+//        System.out.println("Hi");
+//        int x = 0;
+//
+//        if(x==0) {
+//            int nextIndex = x + 1;
+//            if (nextIndex < textFields.size()) {
+//                textFields.get(nextIndex).requestFocus();
+//
+//            }
+//            x=nextIndex;
+//        }
+        for (int i = 0; i < textFields.size(); i++) {
+
+            final int index = i;
+            final int currentIndex = i;
+            TextField textField = textFields.get(i);
+            Label label = labels.get(i);
+
+            textField.setOnKeyTyped(event -> {
+                String text = textField.getText();
+                if (text.length() >= 1) {
+                    textField.setText(text.substring(0, 1));
+                    System.out.println("we have reached here");
+                    System.out.println("OUr current index is" +currentIndex);
+
+                    if(currentIndex ==0)
+                    {
+                        System.out.println("we're here");
+                        textFields.get(currentIndex).requestFocus();
+                    }
+                    int nextIndex = index + 1;
+                    if (nextIndex < textFields.size()) {
+                        textFields.get(nextIndex).requestFocus();
+                    }
+                }
+            });
+
+            textField.textProperty().addListener((observable, oldValue, newValue) ->
+                    label.setText("entry:" + newValue));
+        }
+    }
+
 }
+
+
 
 //    @FXML
 //    private void checkWordAvailability()
