@@ -71,7 +71,7 @@ public class WordleController {
                     }
                 });
             }
-            textField.setStyle("-fx-display-caret: false");
+            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center");
             root.add(textField, i%5, i/5);
 
         }
