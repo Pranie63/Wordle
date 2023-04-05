@@ -3,12 +3,15 @@ package edu.virginia.cs.gui;
 import edu.virginia.cs.wordle.Wordle;
 import edu.virginia.cs.wordle.WordleImplementation;
 import javafx.beans.property.StringProperty;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.*;
 import javafx.scene.layout.RowConstraints;
@@ -57,6 +60,14 @@ public class WordleController {
                     finalTextField.textProperty().setValue(oldValue);
                 }
             });
+            if (i%5 == 4) {
+                int finalI = i;
+                textField.setOnKeyPressed((KeyEvent event) -> {
+                    if (event.getCode().equals(KeyCode.ENTER)) {
+                        textFields.get(finalI+1).requestFocus();
+                    }
+                });
+            }
             textField.setStyle("-fx-display-caret: false");
             root.add(textField, i%5, i/5);
 
@@ -89,7 +100,7 @@ public class WordleController {
 
             textField.setOnKeyTyped(event -> {
                 String text = textField.getText();
-                if (text.length() >= 1) {
+                if (text.length() >= 1 && index % 5 != 4) {
                     textField.setText(text.substring(0, 1));
                     System.out.println("we have reached here");
                     System.out.println("OUr current index is" +currentIndex);
