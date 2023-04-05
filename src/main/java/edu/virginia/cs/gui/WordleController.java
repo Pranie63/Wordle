@@ -65,6 +65,9 @@ public class WordleController {
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
                         textFields.get(finalI+1).requestFocus();
+                        for (int j = finalI-4; j < finalI+1; j++) {
+                            textFields.get(j).setEditable(false);
+                        }
                     }
                 });
             }
