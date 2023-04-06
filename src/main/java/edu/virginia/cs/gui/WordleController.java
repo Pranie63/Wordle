@@ -16,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.*;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import edu.virginia.cs.wordle.LetterResult;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class WordleController {
     @FXML
     private List<Label> labels = new ArrayList<>(); //stores all labels
 
+    public int SubmittedGuesses = 0;
+
     public void initialize() { //sets up event handlers for every textfield
 //        root.setGridLinesVisible(false);
 //        root.getChildren().addAll(new TextField());
@@ -53,53 +56,60 @@ public class WordleController {
             labels.add(label);
 //            textField = textFields.get(i);
 //            label = labels.get(i);
+            final int finalIndex = i;
 
             TextField finalTextField = textField;
+
             textField.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (validInput(observable.getValue())) {
                     finalTextField.textProperty().setValue(newValue.toUpperCase());
+                    if (finalIndex % 5 == 4) {
+                        checkLetters(wordle.getAnswer());
+                    }
                 } else {
                     finalTextField.textProperty().setValue(oldValue);
                 }
             });
-            if (i%5 == 4) {
+            if (i % 5 == 4) {
                 int finalI = i;
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
-                        textFields.get(finalI+1).requestFocus();
-                        for (int j = finalI-4; j < finalI+1; j++) {
+                        textFields.get(finalI + 1).requestFocus();
+                        for (int j = finalI - 4; j < finalI + 1; j++) {
                             textFields.get(j).setEditable(false);
                         }
                     }
                 });
             }
             textField.setStyle("-fx-display-caret: false");
-            root.add(textField, i%5, i/5);
+            root.add(textField, i % 5, i / 5);
 
         }
         textFields.get(0).requestFocus();
     }
 
     public boolean validInput(String str) {
-        return str.length() <= 1 && str.toUpperCase().charAt(0) >= 'A' && str.toUpperCase().charAt(0) <= 'Z';
+        return str.length() == 1 && str.toUpperCase().charAt(0) >= 'A' && str.toUpperCase().charAt(0) <= 'Z';
     }
-    public void handleKeyPressed()
-    {
+
+    public void handleKeyPressed() {
         for (int i = 0; i < textFields.size(); i++) {
 
             final int index = i;
             final int currentIndex = i;
             TextField textField = textFields.get(i);
-           // Label label = labels.get(i);
-        //System.out.println(textFields.get(i));
+
+
+            // Label label = labels.get(i);
+            //System.out.println(textFields.get(i));
             textField.setOnKeyTyped(event -> {
                 String text = textField.getText();
                 System.out.println(text);
-                System.out.println("This is our currentIndex" +  currentIndex);
+                System.out.println("This is our currentIndex" + currentIndex);
                 if (text.length() >= 1 && index % 5 != 4) {
                     textField.setText(text.substring(0, 1));
                     System.out.println("we have reached here");
-                    System.out.println("OUr current index is" +currentIndex);
+                    System.out.println("OUr current index is" + currentIndex);
 
                     int nextIndex = index + 1;
                     if (nextIndex < textFields.size()) {
@@ -111,7 +121,39 @@ public class WordleController {
         }
     }
 
-}
+    public void checkLetters(String word) {
+        //LetterResult[] results = wordle.submitGuess();
+        String x = "";
+
+        for (int i = SubmittedGuesses * 5; i < SubmittedGuesses * 5 + 5; i++) {
+            x += textFields.get(i).getText();
+
+        }
+        LetterResult[] results = wordle.submitGuess(x);
+        System.out.println("THIS IS SDE TESTING");
+        for (int c = 0; c < results.length; c++) {
+            if (results[c] == LetterResult.YELLOW) {
+
+                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: yellow; -fx-text-fill: white;");
+            } else if (results[c] == LetterResult.GREEN) {
+                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: green; -fx-text-fill: white;");
+            } else {
+                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: gray; -fx-text-fill: white;");
+            }
+
+        }
+        SubmittedGuesses++;
+        if (wordle.isWin()) {
+            for (TextField tf : textFields) {
+                tf.setEditable(false);
+            }
+        }
+            if(SubmittedGuesses==6 ||wordle.isLoss())
+            {
+                System.out.println("Your game's over");
+            }
+        }
+    }
 
 
 
