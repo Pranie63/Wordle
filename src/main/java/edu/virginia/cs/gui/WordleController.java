@@ -67,9 +67,6 @@ public class WordleController {
             textField.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (validInput(observable.getValue())) {
                     finalTextField.textProperty().setValue(newValue.toUpperCase());
-                    if (finalIndex % 5 == 4) {
-                        checkLetters(wordle.getAnswer());
-                    }
                 } else {
                     finalTextField.textProperty().setValue(oldValue);
                 }
@@ -79,6 +76,7 @@ public class WordleController {
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
                         answerController(finalI);
+                        checkLetters(wordle.getAnswer());
                     }
                 });
             }
