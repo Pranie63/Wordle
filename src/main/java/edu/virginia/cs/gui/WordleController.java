@@ -85,7 +85,7 @@ public class WordleController {
                     }
                 });
             }
-            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center");
+            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;");
             root.add(textField, i % 5, i / 5);
 
         }
@@ -137,12 +137,11 @@ public class WordleController {
 
         for (int c = 0; c < results.length; c++) {
             if (results[c] == LetterResult.YELLOW) {
-
-                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: yellow; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: yellow; -fx-text-fill: white;");
             } else if (results[c] == LetterResult.GREEN) {
-                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: green; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: green; -fx-text-fill: white;");
             } else {
-                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: gray; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: gray; -fx-text-fill: white;");
             }
 
         }
