@@ -67,14 +67,14 @@ public class WordleController {
             textField.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (validInput(observable.getValue())) {
                     finalTextField.textProperty().setValue(newValue.toUpperCase());
-                    if (finalIndex%5 != 4) {
-                        textFields.get(finalIndex+1).requestFocus();
+                    if (finalIndex % 5 != 4) {
+                        textFields.get(finalIndex + 1).requestFocus();
                     }
                 } else {
                     finalTextField.textProperty().setValue(oldValue);
                 }
             });
-            if (i%5 == 4) {
+            if (i % 5 == 4) {
                 int finalI = i;
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
@@ -84,7 +84,7 @@ public class WordleController {
                 });
             }
             textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center");
-            root.add(textField, i%5, i/5);
+            root.add(textField, i % 5, i / 5);
 
         }
         textFields.get(0).requestFocus();
@@ -93,8 +93,8 @@ public class WordleController {
     public boolean validInput(String str) {
         return str.length() <= 1 && str.toUpperCase().charAt(0) >= 'A' && str.toUpperCase().charAt(0) <= 'Z';
     }
-    public void handleKeyPressed()
-    {
+
+    public void handleKeyPressed() {
 //        for (int i = 0; i < textFields.size(); i++) {
 //
 //            final int index = i;
@@ -120,6 +120,7 @@ public class WordleController {
 //
 //        }
     }
+
     public void checkLetters(String word) {
         //LetterResult[] results = wordle.submitGuess();
         String x = "";
@@ -130,6 +131,8 @@ public class WordleController {
         }
         LetterResult[] results = wordle.submitGuess(x);
         System.out.println("THIS IS SDE TESTING");
+        System.out.println(wordle.getAnswer());
+
         for (int c = 0; c < results.length; c++) {
             if (results[c] == LetterResult.YELLOW) {
 
@@ -142,16 +145,28 @@ public class WordleController {
 
         }
         SubmittedGuesses++;
+
+        CheckForGameState();
+    }
+
+    public void CheckForGameState() {
         if (wordle.isWin()) {
-            for (TextField tf : textFields) {
-                tf.setEditable(false);
-            }
-        }
-        if(SubmittedGuesses==6 ||wordle.isLoss())
-        {
-            System.out.println("Your game's over");
+            System.out.println("Good job you won!");
+            disableTextFields();
+        } else if (wordle.isLoss()) {
+            System.out.println("Sorry, you ran out of guesses. The word was: " + wordle.getAnswer());
+            disableTextFields();
         }
     }
+
+    public void disableTextFields() {
+        for (TextField textField : textFields) {
+            textField.setEditable(false);
+        }
+    }
+
+
+
 
 
 
