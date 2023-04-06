@@ -78,7 +78,9 @@ public class WordleController {
                 int finalI = i;
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
-                        answerController(finalI);
+                        if (finalI < 29) {
+                            answerController(finalI);
+                        }
                         checkLetters(wordle.getAnswer());
                     }
                 });
