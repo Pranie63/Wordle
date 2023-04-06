@@ -1,6 +1,8 @@
 package edu.virginia.cs.gui;
 
+import edu.virginia.cs.wordle.DefaultDictionaryFactory;
 import edu.virginia.cs.wordle.Wordle;
+import edu.virginia.cs.wordle.WordleDictionary;
 import edu.virginia.cs.wordle.WordleImplementation;
 import javafx.beans.property.StringProperty;
 import javafx.event.Event;
@@ -39,9 +41,10 @@ public class WordleController {
     @FXML
     private List<Label> labels = new ArrayList<>(); //stores all labels
 
+    private WordleDictionary dictionary;
+
     public void initialize() { //sets up event handlers for every textfield
-//        root.setGridLinesVisible(false);
-//        root.getChildren().addAll(new TextField());
+        dictionary = new DefaultDictionaryFactory().getDefaultGuessesDictionary();
         TextField textField;
         Label label;
 
@@ -66,10 +69,7 @@ public class WordleController {
                 int finalI = i;
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
-                        textFields.get(finalI+1).requestFocus();
-                        for (int j = finalI-4; j < finalI+1; j++) {
-                            textFields.get(j).setEditable(false);
-                        }
+                        answerController(finalI);
                     }
                 });
             }
@@ -109,6 +109,30 @@ public class WordleController {
             });
 
         }
+    }
+
+    public void answerController(int index) {
+        if (validWord(index)) {
+            textFields.get(index+1).requestFocus();
+            for (int j = index-4; j < index+1; j++) {
+                textFields.get(j).setEditable(false);
+            }
+        }
+        else {
+            for (int j = index-4; j < index+1; j++) {
+                textFields.get(j).textProperty().setValue("");
+            }
+            textFields.get(index-4).requestFocus();
+        }
+    }
+
+    public boolean validWord(int index) {
+        String input = textFields.get(index-4).getText() +
+                textFields.get(index-3).getText() +
+                textFields.get(index-2).getText() +
+                textFields.get(index-1).getText() +
+                textFields.get(index).getText();
+        return dictionary.containsWord(input);
     }
 
 }
