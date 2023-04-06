@@ -67,6 +67,9 @@ public class WordleController {
             textField.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (validInput(observable.getValue())) {
                     finalTextField.textProperty().setValue(newValue.toUpperCase());
+                    if (finalIndex%5 != 4) {
+                        textFields.get(finalIndex+1).requestFocus();
+                    }
                 } else {
                     finalTextField.textProperty().setValue(oldValue);
                 }
@@ -92,30 +95,30 @@ public class WordleController {
     }
     public void handleKeyPressed()
     {
-        for (int i = 0; i < textFields.size(); i++) {
-
-            final int index = i;
-            final int currentIndex = i;
-            TextField textField = textFields.get(i);
-           // Label label = labels.get(i);
-        //System.out.println(textFields.get(i));
-            textField.setOnKeyTyped(event -> {
-                String text = textField.getText();
-                System.out.println(text);
-                System.out.println("This is our currentIndex" +  currentIndex);
-                if (text.length() >= 1 && index % 5 != 4) {
-                    textField.setText(text.substring(0, 1));
-                    System.out.println("we have reached here");
-                    System.out.println("OUr current index is" +currentIndex);
-
-                    int nextIndex = index + 1;
-                    if (nextIndex < textFields.size()) {
-                        textFields.get(nextIndex).requestFocus();
-                    }
-                }
-            });
-
-        }
+//        for (int i = 0; i < textFields.size(); i++) {
+//
+//            final int index = i;
+//            final int currentIndex = i;
+//            TextField textField = textFields.get(i);
+//           // Label label = labels.get(i);
+//        //System.out.println(textFields.get(i));
+//            textField.setOnKeyTyped(event -> {
+//                String text = textField.getText();
+//                System.out.println(text);
+//                System.out.println("This is our currentIndex" +  currentIndex);
+//                if (text.length() >= 1 && index % 5 != 4) {
+//                    textField.setText(text.substring(0, 1));
+//                    System.out.println("we have reached here");
+//                    System.out.println("OUr current index is" +currentIndex);
+//
+//                    int nextIndex = index + 1;
+//                    if (nextIndex < textFields.size()) {
+//                        textFields.get(nextIndex).requestFocus();
+//                    }
+//                }
+//            });
+//
+//        }
     }
     public void checkLetters(String word) {
         //LetterResult[] results = wordle.submitGuess();
