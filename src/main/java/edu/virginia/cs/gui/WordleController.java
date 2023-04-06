@@ -44,10 +44,12 @@ public class WordleController {
 //        root.getChildren().addAll(new TextField());
         TextField textField;
         Label label;
+
         for (int i = 0; i < 30; i++) {
             textField = new TextField();
             label = new Label();
             textFields.add(textField);
+            //textFields.get(0).requestFocus();
             labels.add(label);
 //            textField = textFields.get(i);
 //            label = labels.get(i);
@@ -75,7 +77,7 @@ public class WordleController {
             root.add(textField, i%5, i/5);
 
         }
-
+        textFields.get(0).requestFocus();
     }
 
     public boolean validInput(String str) {
@@ -83,36 +85,22 @@ public class WordleController {
     }
     public void handleKeyPressed()
     {
-//        System.out.println("Hi");
-//        int x = 0;
-//
-//        if(x==0) {
-//            int nextIndex = x + 1;
-//            if (nextIndex < textFields.size()) {
-//                textFields.get(nextIndex).requestFocus();
-//
-//            }
-//            x=nextIndex;
-//        }
         for (int i = 0; i < textFields.size(); i++) {
 
             final int index = i;
             final int currentIndex = i;
             TextField textField = textFields.get(i);
-            Label label = labels.get(i);
-
+           // Label label = labels.get(i);
+        //System.out.println(textFields.get(i));
             textField.setOnKeyTyped(event -> {
                 String text = textField.getText();
+                System.out.println(text);
+                System.out.println("This is our currentIndex" +  currentIndex);
                 if (text.length() >= 1 && index % 5 != 4) {
                     textField.setText(text.substring(0, 1));
                     System.out.println("we have reached here");
                     System.out.println("OUr current index is" +currentIndex);
 
-                    if(currentIndex ==0)
-                    {
-                        System.out.println("we're here");
-                        textFields.get(currentIndex).requestFocus();
-                    }
                     int nextIndex = index + 1;
                     if (nextIndex < textFields.size()) {
                         textFields.get(nextIndex).requestFocus();
@@ -120,36 +108,11 @@ public class WordleController {
                 }
             });
 
-            textField.textProperty().addListener((observable, oldValue, newValue) ->
-                    label.setText("entry:" + newValue));
         }
     }
 
 }
 
-
-
-//    @FXML
-//    private void checkWordAvailability()
-//    {
-//        String letter0 = textField0.getText();
-//        if (letter0.length() > 1 || (letter0.charAt(0)>=97 && letter0.charAt(0)<=122)) {
-//            textField0.setEditable(false);
-//        }
-//    }
-//
-//    @FXML
-//    protected void onTextEntryEnter(KeyEvent event) {
-//        if (event.getCode().equals(KeyCode.A)) {
-//            try {
-//                textField0.setText(textField0.getText().strip());
-//                errorLabel.setText("");
-//                textField0.setDisable(true);
-//            } catch (NumberFormatException e) {
-//                errorLabel.setText("Error: Enter a valid int");
-//            }
-//        }
-//    }
 
 
 
