@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import edu.virginia.cs.wordle.LetterResult;
 
 public class WordleController {
     Wordle wordle = new WordleImplementation();
@@ -43,6 +44,9 @@ public class WordleController {
 
     private WordleDictionary dictionary;
 
+    public int SubmittedGuesses = 0;
+
+
     public void initialize() { //sets up event handlers for every textfield
         dictionary = new DefaultDictionaryFactory().getDefaultGuessesDictionary();
         TextField textField;
@@ -56,11 +60,16 @@ public class WordleController {
             labels.add(label);
 //            textField = textFields.get(i);
 //            label = labels.get(i);
+            final int finalIndex = i;
+
 
             TextField finalTextField = textField;
             textField.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (validInput(observable.getValue())) {
                     finalTextField.textProperty().setValue(newValue.toUpperCase());
+                    if (finalIndex % 5 == 4) {
+                        checkLetters(wordle.getAnswer());
+                    }
                 } else {
                     finalTextField.textProperty().setValue(oldValue);
                 }
@@ -110,6 +119,40 @@ public class WordleController {
 
         }
     }
+    public void checkLetters(String word) {
+        //LetterResult[] results = wordle.submitGuess();
+        String x = "";
+
+        for (int i = SubmittedGuesses * 5; i < SubmittedGuesses * 5 + 5; i++) {
+            x += textFields.get(i).getText();
+
+        }
+        LetterResult[] results = wordle.submitGuess(x);
+        System.out.println("THIS IS SDE TESTING");
+        for (int c = 0; c < results.length; c++) {
+            if (results[c] == LetterResult.YELLOW) {
+
+                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: yellow; -fx-text-fill: white;");
+            } else if (results[c] == LetterResult.GREEN) {
+                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: green; -fx-text-fill: white;");
+            } else {
+                textFields.get(c + SubmittedGuesses * 5).setStyle("-fx-control-inner-background: gray; -fx-text-fill: white;");
+            }
+
+        }
+        SubmittedGuesses++;
+        if (wordle.isWin()) {
+            for (TextField tf : textFields) {
+                tf.setEditable(false);
+            }
+        }
+        if(SubmittedGuesses==6 ||wordle.isLoss())
+        {
+            System.out.println("Your game's over");
+        }
+    }
+
+
 
     public void answerController(int index) {
         if (validWord(index)) {
