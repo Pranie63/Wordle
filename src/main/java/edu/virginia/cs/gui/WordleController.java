@@ -22,10 +22,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import edu.virginia.cs.wordle.LetterResult;
-//dont allow clickable fields
-//dont allow access to next row until prev row is completed
-//handle enter and delete --> make Delete able to go to the prev box
-//make UI look like wordle
+//backspace case --> will highlight character and THEN delete, but should just delete instead
+//tell user if they won or lost
+//offer user to restart game or quit
+    //yes -> generate new game and restart GUI
+    //no -> close application
+//if enters invalid word, tell user that the word is invalid
+
 public class WordleController {
     Wordle wordle = new WordleImplementation();
 
@@ -102,6 +105,14 @@ public class WordleController {
             textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;" +
                             "-fx-pref-width: 500px;" + "-fx-pref-height: 500px;" + "-fx-font-size: 25px;");
 
+
+            textField.setMouseTransparent(true);
+
+            textField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                if (event.getCode() == KeyCode.TAB) {
+                    event.consume();
+                }
+            });
 
             root.add(textField, i % 5, i / 5);
 
