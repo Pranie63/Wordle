@@ -10,7 +10,7 @@ public class WordleApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(WordleApplication.class.getResource("WordleController.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load(), 800, 300);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 500);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
@@ -21,3 +21,4 @@ public class WordleApplication extends Application {
 
     }
 }
+

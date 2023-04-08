@@ -23,7 +23,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import edu.virginia.cs.wordle.LetterResult;
-
+//dont allow clickable fields
+//dont allow access to next row until prev row is completed
+//handle enter and delete --> make Delete able to go to the prev box
+//make UI look like wordle
 public class WordleController {
     Wordle wordle = new WordleImplementation();
 
@@ -85,7 +88,7 @@ public class WordleController {
                     }
                 });
             }
-            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center");
+            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;" + "-fx-cell-size: 500px;");
             root.add(textField, i % 5, i / 5);
 
         }
