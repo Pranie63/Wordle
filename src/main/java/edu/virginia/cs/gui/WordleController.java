@@ -105,7 +105,7 @@ public class WordleController {
 //            }
 
             textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;" +
-                            "-fx-pref-width: 500px;" + "-fx-pref-height: 500px;" + "-fx-font-size: 25px;");
+                            "-fx-pref-width: 500px;" + "-fx-pref-height: 500px;" + "-fx-font-size: 25px;" + "-fx-border-width: 2px;" + "-fx-border-color: lightgray;");
 
 
             textField.setFocusTraversable(false);
@@ -133,10 +133,12 @@ public class WordleController {
             else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
                 if (curtextField.textProperty().getValue().length() == 1 || textFieldIndex % 5 == 0) {
                     curtextField.textProperty().setValue("");
+                    curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
                 }
                 else if (curtextField.textProperty().getValue().length() < 1) {
                     textFieldIndex--;
                     textFields.get(textFieldIndex).textProperty().setValue("");
+                    textFields.get(textFieldIndex).setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
                 }
             }
             else if (event.getCode() == KeyCode.TAB) {
@@ -145,6 +147,7 @@ public class WordleController {
             else if (validInput(event.getText())) {
                 if (!validInput(curtextField.textProperty().getValue())) {
                     curtextField.textProperty().setValue(event.getText().toUpperCase());
+                    curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: gray;");
                     if (textFieldIndex % 5 != 4) {
                         textFieldIndex++;
                     }
@@ -198,11 +201,11 @@ public class WordleController {
 
         for (int c = 0; c < results.length; c++) {
             if (results[c] == LetterResult.YELLOW) {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: yellow; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: yellow; -fx-text-fill: white;" + "-fx-border-color: yellow;");
             } else if (results[c] == LetterResult.GREEN) {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: green; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: green; -fx-text-fill: white;" + "-fx-border-color: green;");
             } else {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: gray; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: gray; -fx-text-fill: white;" + "-fx-border-color: gray;");
             }
 
         }
@@ -259,6 +262,7 @@ public class WordleController {
             displayInvalidWord();;
             for (int j = index-4; j < index+1; j++) {
                 textFields.get(j).textProperty().setValue("");
+                textFields.get(j).setStyle(textFields.get(j).getStyle() + "-fx-border-color: lightgray;");
             }
             textFieldIndex -= 4;
             return false;
