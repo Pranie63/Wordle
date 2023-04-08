@@ -125,7 +125,7 @@ public class WordleController {
         root.requestFocus();
         root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             TextField curtextField = textFields.get(textFieldIndex);
-            if (textFieldIndex % 5 == 4 && event.getCode().equals(KeyCode.ENTER)) {
+            if (textFieldIndex % 5 == 4 && event.getCode().equals(KeyCode.ENTER) && curtextField.textProperty().getValue().length() == 1) {
                 if (newAnswerController(textFieldIndex)) {
                     checkLetters(wordle.getAnswer());
                 }
