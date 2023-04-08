@@ -18,7 +18,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.*;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,21 +77,32 @@ public class WordleController {
                 }
             });
             if (i % 5 == 4) {
-                int finalI = i;
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
-                        if (finalI < 29) {
-                            answerController(finalI);
+                        if (finalIndex < 29) {
+                            answerController(finalIndex);
                         }
                         checkLetters(wordle.getAnswer());
                     }
+                    else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
+                        textFields.get(finalIndex -1).requestFocus();
+                    }
                 });
             }
-<<<<<<< HEAD
-            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;" + "-fx-cell-size: 500px;");
-=======
-            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;");
->>>>>>> 0921b27e7e65c0cad9f8a1975f6abec04e850295
+            else if(i % 5 != 0){
+                textField.setOnKeyPressed((KeyEvent event) -> {
+                    if (event.getCode().equals(KeyCode.BACK_SPACE)) {
+
+                        textFields.get(finalIndex -1).requestFocus();
+                    }
+                });
+
+            }
+
+            textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;" +
+                            "-fx-pref-width: 500px;" + "-fx-pref-height: 500px;" + "-fx-font-size: 25px;");
+
+
             root.add(textField, i % 5, i / 5);
 
         }
