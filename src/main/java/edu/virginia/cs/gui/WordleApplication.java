@@ -11,7 +11,7 @@ public class WordleApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(WordleApplication.class.getResource("WordleController.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 800, 800);
-       // stage.setTitle("Hello!");
+        stage.setTitle("Wordle Game");
         stage.setScene(scene);
         stage.show();
     }

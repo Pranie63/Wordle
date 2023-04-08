@@ -42,5 +42,12 @@
                 <!--        <TextField fx:id=""-->
             </children>
         </GridPane>
+      <Label fx:id="invalidLabel">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <padding>
+            <Insets top="20.0" />
+         </padding></Label>
     </children>
 </VBox>

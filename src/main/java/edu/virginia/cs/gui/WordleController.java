@@ -47,6 +47,9 @@ public class WordleController {
     @FXML
     private List<Label> labels = new ArrayList<>(); //stores all labels
 
+    @FXML
+    private Label invalidLabel;
+
     private WordleDictionary dictionary;
 
     public int SubmittedGuesses = 0;
@@ -82,9 +85,7 @@ public class WordleController {
             if (i % 5 == 4) {
                 textField.setOnKeyPressed((KeyEvent event) -> {
                     if (event.getCode().equals(KeyCode.ENTER)) {
-                        if (finalIndex < 29) {
                             answerController(finalIndex);
-                        }
                         checkLetters(wordle.getAnswer());
                     }
                     else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
@@ -194,19 +195,18 @@ public class WordleController {
         }
     }
 
-
-
-
-
-
     public void answerController(int index) {
         if (validWord(index)) {
-            textFields.get(index+1).requestFocus();
+            displayValidWord();
+            if(index < 29) {
+                textFields.get(index + 1).requestFocus();
+            }
             for (int j = index-4; j < index+1; j++) {
                 textFields.get(j).setEditable(false);
             }
         }
         else {
+            displayInvalidWord();;
             for (int j = index-4; j < index+1; j++) {
                 textFields.get(j).textProperty().setValue("");
             }
@@ -214,6 +214,17 @@ public class WordleController {
         }
     }
 
+    public void displayInvalidWord(){
+
+        invalidLabel.setText("Invalid Word, please enter a new one!");
+
+    }
+
+    public void displayValidWord(){
+
+        invalidLabel.setText("");
+
+    }
     public boolean validWord(int index) {
         String input = textFields.get(index-4).getText() +
                 textFields.get(index-3).getText() +
@@ -222,6 +233,8 @@ public class WordleController {
                 textFields.get(index).getText();
         return dictionary.containsWord(input);
     }
+
+
 
 }
 
