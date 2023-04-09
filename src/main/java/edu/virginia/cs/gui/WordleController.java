@@ -57,6 +57,8 @@ public class WordleController {
 
     private WordleDictionary dictionary;
 
+    private int textFieldIndex = 0;
+
     public int SubmittedGuesses = 0;
 
 
@@ -73,61 +75,94 @@ public class WordleController {
             labels.add(label);
 //            textField = textFields.get(i);
 //            label = labels.get(i);
-            final int finalIndex = i;
+//            final int finalIndex = i;
 
 
-            TextField finalTextField = textField;
-            textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (validInput(observable.getValue())) {
-                    finalTextField.textProperty().setValue(newValue.toUpperCase());
-                    if (finalIndex % 5 != 4) {
-                        textFields.get(finalIndex + 1).requestFocus();
-                    }
-                } else {
-                    finalTextField.textProperty().setValue(oldValue);
-                }
-            });
-            if (i % 5 == 4) {
-                textField.setOnKeyPressed((KeyEvent event) -> {
-                    if (event.getCode().equals(KeyCode.ENTER)) {
-                            answerController(finalIndex);
-                        checkLetters(wordle.getAnswer());
-                    }
-                    else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
-                        textFields.get(finalIndex -1).requestFocus();
-                    }
-                });
-            }
-            else if(i % 5 != 0){
-                textField.setOnKeyPressed((KeyEvent event) -> {
-                    if (event.getCode().equals(KeyCode.BACK_SPACE)) {
-
-                        textFields.get(finalIndex -1).requestFocus();
-                    }
-                });
-
-            }
+//            TextField finalTextField = textField;
+//            textField.textProperty().addListener((observable, oldValue, newValue) -> {
+//                if (validInput(observable.getValue())) {
+//                    finalTextField.textProperty().setValue(newValue.toUpperCase());
+//                    if (finalIndex % 5 != 4) {
+//                        textFields.get(finalIndex + 1).requestFocus();
+//                    }
+//                } else {
+//                    finalTextField.textProperty().setValue(oldValue);
+//                }
+//            });
+//            if (i % 5 == 4) {
+//                textField.setOnKeyPressed((KeyEvent event) -> {
+//                    if (event.getCode().equals(KeyCode.ENTER)) {
+//                        answerController(finalIndex);
+//                        checkLetters(wordle.getAnswer());
+//                    }
+//                    else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
+//                        textFields.get(finalIndex - 1).requestFocus();
+//                    }
+//                });
+//            }
+//            else if(i % 5 != 0){
+//                textField.setOnKeyPressed((KeyEvent event) -> {
+//                    if (event.getCode().equals(KeyCode.BACK_SPACE)) {
+//                        textFields.get(finalIndex - 1).requestFocus();
+//                    }
+//                });
+//
+//            }
 
             textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;" +
-                            "-fx-pref-width: 500px;" + "-fx-pref-height: 500px;" + "-fx-font-size: 25px;");
+                            "-fx-pref-width: 500px;" + "-fx-pref-height: 500px;" + "-fx-font-size: 25px;" + "-fx-border-width: 2px;" + "-fx-border-color: lightgray;");
 
 
+            textField.setFocusTraversable(false);
             textField.setMouseTransparent(true);
 
-            textField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-                if (event.getCode() == KeyCode.TAB) {
-                    event.consume();
-                }
-            });
+//            textField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+//                if (event.getCode() == KeyCode.TAB) {
+//                    event.consume();
+//                }
+//            });
 
             root.add(textField, i % 5, i / 5);
 
         }
-        textFields.get(0).requestFocus();
+//        textFields.get(0).requestFocus();
+        root.setFocusTraversable(true);
+        root.requestFocus();
+        root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            TextField curtextField = textFields.get(textFieldIndex);
+            if (textFieldIndex % 5 == 4 && event.getCode().equals(KeyCode.ENTER) && curtextField.textProperty().getValue().length() == 1) {
+                if (newAnswerController(textFieldIndex)) {
+                    checkLetters(wordle.getAnswer());
+                }
+            }
+            else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
+                if (curtextField.textProperty().getValue().length() == 1 || textFieldIndex % 5 == 0) {
+                    curtextField.textProperty().setValue("");
+                    curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
+                }
+                else if (curtextField.textProperty().getValue().length() < 1) {
+                    textFieldIndex--;
+                    textFields.get(textFieldIndex).textProperty().setValue("");
+                    textFields.get(textFieldIndex).setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
+                }
+            }
+            else if (event.getCode() == KeyCode.TAB) {
+                event.consume();
+            }
+            else if (validInput(event.getText())) {
+                if (!validInput(curtextField.textProperty().getValue())) {
+                    curtextField.textProperty().setValue(event.getText().toUpperCase());
+                    curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: gray;");
+                    if (textFieldIndex % 5 != 4) {
+                        textFieldIndex++;
+                    }
+                }
+            }
+        });
     }
 
     public boolean validInput(String str) {
-        return str.length() <= 1 && str.toUpperCase().charAt(0) >= 'A' && str.toUpperCase().charAt(0) <= 'Z';
+        return str.length() == 1 && str.toUpperCase().charAt(0) >= 'A' && str.toUpperCase().charAt(0) <= 'Z';
     }
 
     public void handleKeyPressed() {
@@ -171,11 +206,11 @@ public class WordleController {
 
         for (int c = 0; c < results.length; c++) {
             if (results[c] == LetterResult.YELLOW) {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: yellow; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: yellow; -fx-text-fill: white;" + "-fx-border-color: yellow;");
             } else if (results[c] == LetterResult.GREEN) {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: green; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: green; -fx-text-fill: white;" + "-fx-border-color: green;");
             } else {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: gray; -fx-text-fill: white;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: gray; -fx-text-fill: white;" + "-fx-border-color: gray;");
             }
 
         }
@@ -198,6 +233,7 @@ public class WordleController {
         for (TextField textField : textFields) {
             textField.setEditable(false);
         }
+        root.setFocusTraversable(false);
     }
 
     public void answerController(int index) {
@@ -206,9 +242,9 @@ public class WordleController {
             if(index < 29) {
                 textFields.get(index + 1).requestFocus();
             }
-            for (int j = index-4; j < index+1; j++) {
-                textFields.get(j).setEditable(false);
-            }
+//            for (int j = index-4; j < index+1; j++) {
+//                textFields.get(j).setEditable(false);
+//            }
         }
         else {
             displayInvalidWord();;
@@ -216,6 +252,25 @@ public class WordleController {
                 textFields.get(j).textProperty().setValue("");
             }
             textFields.get(index-4).requestFocus();
+        }
+    }
+
+    public boolean newAnswerController(int index) {
+        if (validWord(index)) {
+            displayValidWord();
+            if(index < 29) {
+                textFieldIndex++;
+            }
+            return true;
+        }
+        else {
+            displayInvalidWord();;
+            for (int j = index-4; j < index+1; j++) {
+                textFields.get(j).textProperty().setValue("");
+                textFields.get(j).setStyle(textFields.get(j).getStyle() + "-fx-border-color: lightgray;");
+            }
+            textFieldIndex -= 4;
+            return false;
         }
     }
 
