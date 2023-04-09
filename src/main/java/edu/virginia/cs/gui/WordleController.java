@@ -5,9 +5,12 @@ import edu.virginia.cs.wordle.Wordle;
 import edu.virginia.cs.wordle.WordleDictionary;
 import edu.virginia.cs.wordle.WordleImplementation;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -30,7 +33,6 @@ import edu.virginia.cs.wordle.LetterResult;
     //yes -> generate new game and restart GUI
     //no -> close application
 
-//backspace case --> will highlight character and THEN delete, but should just delete instead
 
 //test some edge cases, then done!
 
@@ -54,6 +56,12 @@ public class WordleController {
 
     @FXML
     private Label invalidLabel;
+
+    @FXML
+    private Button restartGameYes;
+
+    @FXML
+    private Button restartGameNo;
 
     private WordleDictionary dictionary;
 
@@ -134,6 +142,12 @@ public class WordleController {
                 if (newAnswerController(textFieldIndex)) {
                     checkLetters(wordle.getAnswer());
                 }
+                if(wordle.isWin()){//ahb
+                    displayWin();
+                }
+                else if(wordle.isLoss()){
+                    displayLoss();
+                }
             }
             else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
                 if (curtextField.textProperty().getValue().length() == 1 || textFieldIndex % 5 == 0) {
@@ -206,9 +220,9 @@ public class WordleController {
 
         for (int c = 0; c < results.length; c++) {
             if (results[c] == LetterResult.YELLOW) {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: yellow; -fx-text-fill: white;" + "-fx-border-color: yellow;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: #FFC425; -fx-text-fill: white;" + "-fx-border-color: #FFC425;");
             } else if (results[c] == LetterResult.GREEN) {
-                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: green; -fx-text-fill: white;" + "-fx-border-color: green;");
+                textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: #019A01; -fx-text-fill: white;" + "-fx-border-color: #019A01");
             } else {
                 textFields.get(c + SubmittedGuesses * 5).setStyle(textFields.get(c + SubmittedGuesses * 5).getStyle() + "-fx-control-inner-background: gray; -fx-text-fill: white;" + "-fx-border-color: gray;");
             }
@@ -285,6 +299,19 @@ public class WordleController {
         invalidLabel.setText("");
 
     }
+
+    public void displayWin(){
+
+        invalidLabel.setText("Congratulations, you have won!");
+
+    }
+
+    public void displayLoss(){
+
+        invalidLabel.setText("I'm sorry, you have lost. The correct answer was '" + wordle.getAnswer()+"'");
+
+    }
+
     public boolean validWord(int index) {
         String input = textFields.get(index-4).getText() +
                 textFields.get(index-3).getText() +

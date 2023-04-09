@@ -44,7 +44,7 @@
         </GridPane>
       <Label fx:id="invalidLabel">
          <font>
-            <Font size="14.0" />
+            <Font size="15.0" />
          </font>
          <padding>
             <Insets top="20.0" />
