@@ -22,12 +22,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import edu.virginia.cs.wordle.LetterResult;
-//backspace case --> will highlight character and THEN delete, but should just delete instead
+
+//Checklist:
 //tell user if they won or lost
+
 //offer user to restart game or quit
     //yes -> generate new game and restart GUI
     //no -> close application
-//if enters invalid word, tell user that the word is invalid
+
+//backspace case --> will highlight character and THEN delete, but should just delete instead
+
+//test some edge cases, then done!
 
 public class WordleController {
     Wordle wordle = new WordleImplementation();
