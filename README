@@ -1,0 +1,24 @@
+*AUTHORS*
+    Author 1: Pranav Ramkumar
+    Author 2: Ahbey Mesfin
+    Author 3: Arnav Singh
+
+*Program Description / Instructions*
+    This program is an implementation of the popular New York Times Game, Wordle.
+        (it follows the exact same rules as Wordle -> 6 guesses, each 5 letter word.)
+
+    To play, please run the WordleApplication class (NOT the Controller.)
+
+    You do not need to use your cursor to select any boxes, simply start typing and the program will know which tile
+    you are typing into.
+
+    After you win or lose, buttons towards the bottom of the window will appear, asking you if you'd like to play again or quit.
+        "Play Again" will restart the program anew, and "Quit" will kill the program.
+
+    If you enter an invalid word (invalid meaning it does not exist in the Wordle dictionary, or a bad character such as "!" or a number,)
+        then the guess will not be counted against you, and you can try another word with no penalty.
+
+    If you lose, the program will display text at the bottom letting you know what the correct word was.
+
+    Happy playing!
+**

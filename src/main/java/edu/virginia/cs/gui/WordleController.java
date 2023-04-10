@@ -27,16 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import edu.virginia.cs.wordle.LetterResult;
 
-//Checklist:
-//tell user if they won or lost
-
-//offer user to restart game or quit
-    //yes -> generate new game and restart GUI
-    //no -> close application
-
-
-//test some edge cases, then done!
-
 public class WordleController {
     Wordle wordle = new WordleImplementation();
 
@@ -71,7 +61,7 @@ public class WordleController {
     public int SubmittedGuesses = 0;
 
 
-    public void initialize() { //sets up event handlers for every textfield
+    public void initialize() {
         restartGameNo.setVisible(false);
         restartGameYes.setVisible(false);
         restartGameYes.setOnMouseClicked((MouseEvent event) -> {
@@ -93,43 +83,6 @@ public class WordleController {
             textField = new TextField();
             label = new Label();
             textFields.add(textField);
-            //textFields.get(0).requestFocus();
-//            labels.add(label);
-//            textField = textFields.get(i);
-//            label = labels.get(i);
-//            final int finalIndex = i;
-
-
-//            TextField finalTextField = textField;
-//            textField.textProperty().addListener((observable, oldValue, newValue) -> {
-//                if (validInput(observable.getValue())) {
-//                    finalTextField.textProperty().setValue(newValue.toUpperCase());
-//                    if (finalIndex % 5 != 4) {
-//                        textFields.get(finalIndex + 1).requestFocus();
-//                    }
-//                } else {
-//                    finalTextField.textProperty().setValue(oldValue);
-//                }
-//            });
-//            if (i % 5 == 4) {
-//                textField.setOnKeyPressed((KeyEvent event) -> {
-//                    if (event.getCode().equals(KeyCode.ENTER)) {
-//                        answerController(finalIndex);
-//                        checkLetters(wordle.getAnswer());
-//                    }
-//                    else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
-//                        textFields.get(finalIndex - 1).requestFocus();
-//                    }
-//                });
-//            }
-//            else if(i % 5 != 0){
-//                textField.setOnKeyPressed((KeyEvent event) -> {
-//                    if (event.getCode().equals(KeyCode.BACK_SPACE)) {
-//                        textFields.get(finalIndex - 1).requestFocus();
-//                    }
-//                });
-//
-//            }
 
             textField.setStyle("-fx-display-caret: false;" + "-fx-alignment: center;" +
                             "-fx-pref-width: 500px;" + "-fx-pref-height: 500px;" + "-fx-font-size: 25px;" + "-fx-border-width: 2px;" + "-fx-border-color: lightgray;");
@@ -138,16 +91,11 @@ public class WordleController {
             textField.setFocusTraversable(false);
             textField.setMouseTransparent(true);
 
-//            textField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-//                if (event.getCode() == KeyCode.TAB) {
-//                    event.consume();
-//                }
-//            });
 
             root.add(textField, i % 5, i / 5);
 
         }
-//        textFields.get(0).requestFocus();
+
         root.setFocusTraversable(true);
         root.requestFocus();
         root.setOnKeyPressed((KeyEvent event) -> {
@@ -161,7 +109,7 @@ public class WordleController {
             if (newAnswerController(textFieldIndex)) {
                 checkLetters(wordle.getAnswer());
             }
-            if(wordle.isWin()){//ahb
+            if(wordle.isWin()){
                 displayWin();
             }
             else if(wordle.isLoss()){
@@ -198,34 +146,11 @@ public class WordleController {
     }
 
     public void handleKeyPressed() {
-//        for (int i = 0; i < textFields.size(); i++) {
-//
-//            final int index = i;
-//            final int currentIndex = i;
-//            TextField textField = textFields.get(i);
-//           // Label label = labels.get(i);
-//        //System.out.println(textFields.get(i));
-//            textField.setOnKeyTyped(event -> {
-//                String text = textField.getText();
-//                System.out.println(text);
-//                System.out.println("This is our currentIndex" +  currentIndex);
-//                if (text.length() >= 1 && index % 5 != 4) {
-//                    textField.setText(text.substring(0, 1));
-//                    System.out.println("we have reached here");
-//                    System.out.println("OUr current index is" +currentIndex);
-//
-//                    int nextIndex = index + 1;
-//                    if (nextIndex < textFields.size()) {
-//                        textFields.get(nextIndex).requestFocus();
-//                    }
-//                }
-//            });
-//
-//        }
+
     }
 
     public void checkLetters(String word) {
-        //LetterResult[] results = wordle.submitGuess();
+
         String x = "";
 
         for (int i = SubmittedGuesses * 5; i < SubmittedGuesses * 5 + 5; i++) {
@@ -233,7 +158,6 @@ public class WordleController {
 
         }
         LetterResult[] results = wordle.submitGuess(x);
-        System.out.println(wordle.getAnswer());
 
         for (int c = 0; c < results.length; c++) {
             if (results[c] == LetterResult.YELLOW) {
@@ -275,9 +199,6 @@ public class WordleController {
             if(index < 29) {
                 textFields.get(index + 1).requestFocus();
             }
-//            for (int j = index-4; j < index+1; j++) {
-//                textFields.get(j).setEditable(false);
-//            }
         }
         else {
             displayInvalidWord();;
@@ -327,7 +248,7 @@ public class WordleController {
 
     public void displayLoss(){
 
-        invalidLabel.setText("I'm sorry, you have lost. The correct answer was '" + wordle.getAnswer()+"'");
+        invalidLabel.setText("I'm sorry, you have lost. The correct answer was '" + wordle.getAnswer()+"'.");
 
     }
 
