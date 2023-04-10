@@ -215,7 +215,6 @@ public class WordleController {
 
         }
         LetterResult[] results = wordle.submitGuess(x);
-        System.out.println("THIS IS SDE TESTING");
         System.out.println(wordle.getAnswer());
 
         for (int c = 0; c < results.length; c++) {
@@ -235,10 +234,8 @@ public class WordleController {
 
     public void CheckForGameState() {
         if (wordle.isWin()) {
-            System.out.println("Good job you won!");
             disableTextFields();
         } else if (wordle.isLoss()) {
-            System.out.println("Sorry, you ran out of guesses. The word was: " + wordle.getAnswer());
             disableTextFields();
         }
     }

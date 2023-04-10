@@ -5,15 +5,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" onKeyReleased="#handleKeyPressed" prefHeight="416.0" prefWidth="570.0" spacing="1.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.cs.gui.WordleController">
+<VBox alignment="TOP_CENTER" onKeyReleased="#handleKeyPressed" prefHeight="416.0" prefWidth="570.0" spacing="1.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.cs.gui.WordleController">
     <children>
-      <Label text="WORDLE">
-         <font>
-            <Font name="System Bold" size="48.0" />
-         </font>
-         <padding>
-            <Insets bottom="60.0" />
-         </padding></Label>
+        <Label text="WORDLE">
+            <font>
+                <Font name="System Bold" size="48.0" />
+            </font>
+            <padding>
+                <Insets bottom="60.0" />
+            </padding></Label>
         <GridPane fx:id="root" hgap="10.0" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" vgap="10.0">
             <columnConstraints>
                 <ColumnConstraints percentWidth="20" />
@@ -42,12 +42,12 @@
                 <!--        <TextField fx:id=""-->
             </children>
         </GridPane>
-      <Label fx:id="invalidLabel">
-         <font>
-            <Font size="15.0" />
-         </font>
-         <padding>
-            <Insets top="20.0" />
-         </padding></Label>
+        <Label fx:id="invalidLabel">
+            <font>
+                <Font size="15.0" />
+            </font>
+            <padding>
+                <Insets top="20.0" />
+            </padding></Label>
     </children>
 </VBox>
