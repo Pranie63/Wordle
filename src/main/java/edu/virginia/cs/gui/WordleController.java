@@ -71,6 +71,8 @@ public class WordleController {
 
 
     public void initialize() { //sets up event handlers for every textfield
+        restartGameNo.setVisible(false);
+        restartGameYes.setVisible(false);
         dictionary = new DefaultDictionaryFactory().getDefaultGuessesDictionary();
         TextField textField;
         Label label;
@@ -235,8 +237,12 @@ public class WordleController {
     public void CheckForGameState() {
         if (wordle.isWin()) {
             disableTextFields();
+            restartGameNo.setVisible(true);
+            restartGameYes.setVisible(true);
         } else if (wordle.isLoss()) {
             disableTextFields();
+            restartGameNo.setVisible(true);
+            restartGameYes.setVisible(true);
         }
     }
 
