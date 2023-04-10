@@ -4,6 +4,7 @@ import edu.virginia.cs.wordle.DefaultDictionaryFactory;
 import edu.virginia.cs.wordle.Wordle;
 import edu.virginia.cs.wordle.WordleDictionary;
 import edu.virginia.cs.wordle.WordleImplementation;
+import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -73,6 +74,17 @@ public class WordleController {
     public void initialize() { //sets up event handlers for every textfield
         restartGameNo.setVisible(false);
         restartGameYes.setVisible(false);
+        restartGameYes.setOnMouseClicked((MouseEvent event) -> {
+            wordle = new WordleImplementation();
+            textFields.clear();
+            textFieldIndex = 0;
+            SubmittedGuesses = 0;
+            initialize();
+        });
+        restartGameNo.setOnMouseClicked((MouseEvent event) -> {
+            Platform.exit();
+        });
+        displayValidWord();
         dictionary = new DefaultDictionaryFactory().getDefaultGuessesDictionary();
         TextField textField;
         Label label;
@@ -82,7 +94,7 @@ public class WordleController {
             label = new Label();
             textFields.add(textField);
             //textFields.get(0).requestFocus();
-            labels.add(label);
+//            labels.add(label);
 //            textField = textFields.get(i);
 //            label = labels.get(i);
 //            final int finalIndex = i;
@@ -138,43 +150,47 @@ public class WordleController {
 //        textFields.get(0).requestFocus();
         root.setFocusTraversable(true);
         root.requestFocus();
-        root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            TextField curtextField = textFields.get(textFieldIndex);
-            if (textFieldIndex % 5 == 4 && event.getCode().equals(KeyCode.ENTER) && curtextField.textProperty().getValue().length() == 1) {
-                if (newAnswerController(textFieldIndex)) {
-                    checkLetters(wordle.getAnswer());
-                }
-                if(wordle.isWin()){//ahb
-                    displayWin();
-                }
-                else if(wordle.isLoss()){
-                    displayLoss();
-                }
-            }
-            else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
-                if (curtextField.textProperty().getValue().length() == 1 || textFieldIndex % 5 == 0) {
-                    curtextField.textProperty().setValue("");
-                    curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
-                }
-                else if (curtextField.textProperty().getValue().length() < 1) {
-                    textFieldIndex--;
-                    textFields.get(textFieldIndex).textProperty().setValue("");
-                    textFields.get(textFieldIndex).setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
-                }
-            }
-            else if (event.getCode() == KeyCode.TAB) {
-                event.consume();
-            }
-            else if (validInput(event.getText())) {
-                if (!validInput(curtextField.textProperty().getValue())) {
-                    curtextField.textProperty().setValue(event.getText().toUpperCase());
-                    curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: gray;");
-                    if (textFieldIndex % 5 != 4) {
-                        textFieldIndex++;
-                    }
-                }
-            }
+        root.setOnKeyPressed((KeyEvent event) -> {
+            gridPaneHandler(event);
         });
+    }
+
+    public void gridPaneHandler(KeyEvent event) {
+        TextField curtextField = textFields.get(textFieldIndex);
+        if (textFieldIndex % 5 == 4 && event.getCode().equals(KeyCode.ENTER) && curtextField.textProperty().getValue().length() == 1) {
+            if (newAnswerController(textFieldIndex)) {
+                checkLetters(wordle.getAnswer());
+            }
+            if(wordle.isWin()){//ahb
+                displayWin();
+            }
+            else if(wordle.isLoss()){
+                displayLoss();
+            }
+        }
+        else if (event.getCode().equals(KeyCode.BACK_SPACE)) {
+            if (curtextField.textProperty().getValue().length() == 1 || textFieldIndex % 5 == 0) {
+                curtextField.textProperty().setValue("");
+                curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
+            }
+            else if (curtextField.textProperty().getValue().length() < 1) {
+                textFieldIndex--;
+                textFields.get(textFieldIndex).textProperty().setValue("");
+                textFields.get(textFieldIndex).setStyle(curtextField.getStyle() + "-fx-border-color: lightgray;");
+            }
+        }
+        else if (event.getCode() == KeyCode.TAB) {
+            event.consume();
+        }
+        else if (validInput(event.getText())) {
+            if (!validInput(curtextField.textProperty().getValue())) {
+                curtextField.textProperty().setValue(event.getText().toUpperCase());
+                curtextField.setStyle(curtextField.getStyle() + "-fx-border-color: gray;");
+                if (textFieldIndex % 5 != 4) {
+                    textFieldIndex++;
+                }
+            }
+        }
     }
 
     public boolean validInput(String str) {
